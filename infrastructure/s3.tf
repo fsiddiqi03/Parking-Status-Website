@@ -3,33 +3,23 @@ resource "aws_s3_bucket" "parking_status_app" { // creates s3 bucket
 }
 
 
-resource "aws_s3_bucket_ownership_controls" "this" {
-  bucket = aws_s3_bucket.parking_status_app.id
-  rule {
-    object_ownership = "BucketOwnerPreferred"
-  }
-}
-
-
 resource "aws_s3_bucket_public_access_block" "this" {
   bucket = aws_s3_bucket.parking_status_app.id
 
-  block_public_acls       = false
-  block_public_policy     = false
-  ignore_public_acls      = false
-  restrict_public_buckets = false
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
 }
 
 
-
-resource "aws_s3_bucket_acl" "s3_acl" { // sets up acl for public access
+resource "aws_s3_bucket_acl" "s3_acl" { // sets acl to private, so access can only happen through cloudfront 
   depends_on = [
-    aws_s3_bucket_ownership_controls.this,
     aws_s3_bucket_public_access_block.this
   ]
 
   bucket = aws_s3_bucket.parking_status_app.id
-  acl    = "public-read"
+  acl    = "private"
 }
 
 resource "aws_s3_bucket_website_configuration" "s3_website_config" { //cofigures the bucket for website hosting 
@@ -44,13 +34,17 @@ resource "aws_s3_bucket_website_configuration" "s3_website_config" { //cofigures
   }
 }
 
+locals {
+  cloudfront_oai = aws_cloudfront_origin_access_identity.oai.id
+}
+
 data "aws_iam_policy_document" "s3_policy_doc" {
   statement {
-    sid    = "PublicReadGetObject"
+    sid    = "CloudFrontAccess"
     effect = "Allow"
     principals {
       type        = "AWS"
-      identifiers = ["*"]
+      identifiers = ["arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity ${local.cloudfront_oai}"]
     }
     actions   = ["s3:GetObject"]
     resources = ["${aws_s3_bucket.parking_status_app.arn}/*"]
