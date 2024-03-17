@@ -29,3 +29,5 @@ yarn-error.log*
 *.tfvars
 .terraform.lock.hcl
 
+terraform-provider-aws_v5.41.0_x5.exe
+
