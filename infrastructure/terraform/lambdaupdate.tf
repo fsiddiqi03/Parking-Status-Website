@@ -1,3 +1,11 @@
+
+data "archive_file" "lambda" {
+  type        = "zip"
+  source_file = "lambda_update_status.py"
+  output_path = "lambda_function_payload.zip"
+}
+
+
 resource "aws_lambda_function" "update_status" {
   function_name = "updateParkingStatus"
   handler       = "lambda_function.lambda_handler"
@@ -5,32 +13,36 @@ resource "aws_lambda_function" "update_status" {
   runtime       = "python3.8"
   filename      = "lambda_function.zip"
 
-  source_code_hash = filebase64sha256("lambda_function.zip")
+  source_code_hash = data.archive_file.lambda.output_base64sha256
 }
+
+
 
 /*
 Update Iam role, needs to be a @data not @resource 
-
-
 */
 
-resource "aws_iam_role" "lambda_exec" {
+data "aws_iam_policy_document" "assume_role" {
+  statement {
+    effect = "Allow"
 
-  name = "lambda_execution_role"
+    principals {
+      type        = "Service"
+      identifiers = ["lambda.amazonaws.com"]
+    }
 
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = "sts:AssumeRole"
-        Effect = "Allow"
-        Principal = {
-          Service = "lambda.amazonaws.com"
-        }
-      },
-    ]
-  })
+    actions = ["sts:AssumeRole"]
+  }
 }
+
+
+resource "aws_iam_role" "lambda_exec" {
+  name               = "lambda_execution_role"
+  assume_role_policy = data.aws_iam_policy_document.assume_role
+
+}
+
+# check if you can have two iam policy docs or if you need one. 
 
 resource "aws_iam_role_policy" "lambda_dynamodb_access" {
   name = "lambda_dynamodb_access"
