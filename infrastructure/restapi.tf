@@ -64,3 +64,13 @@ output "http_api_url" {
   description = "The endpoint URL of the HTTP API Gateway"
 }
 
+/* 
+whats needed for polling 
+
+Api gateway integration 
+Api gateway route 
+lambda permission 
+
+and new lambda function 
+
+*/
