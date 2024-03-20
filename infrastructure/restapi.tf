@@ -1,3 +1,4 @@
+
 resource "aws_apigatewayv2_api" "lambda" {
   name          = "serverless_lambda_gw"
   protocol_type = "HTTP"
@@ -56,5 +57,10 @@ resource "aws_lambda_permission" "api_gw" {
   principal     = "apigateway.amazonaws.com"
 
   source_arn = "${aws_apigatewayv2_api.lambda.execution_arn}/*/*"
+}
+
+output "http_api_url" {
+  value       = aws_apigatewayv2_api.lambda.api_endpoint
+  description = "The endpoint URL of the HTTP API Gateway"
 }
 
