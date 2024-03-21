@@ -1,7 +1,6 @@
-# Project Overview: Loyola University Chicago Parking Lot Notification System
+# Project Overview: Parking Lot Notification System
 
 This system is a serverless, cloud-based architecture designed to provide real-time parking status notifications for Loyola University Chicago. It informs users about the current parking availability through a web application hosted on AWS, utilizing a range of AWS services for optimized performance, scalability, and reliability. Infrastructure is handled through the use of Terraform.
-Tech: React.js, Express.js, Python, Terraform, JavaScript
 
 # AWS Architecture Components:
 
