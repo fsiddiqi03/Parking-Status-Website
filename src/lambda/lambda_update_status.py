@@ -13,6 +13,7 @@ def lambda_handler(event, context):
 
     garage_id = body['GarageID']
     new_status = body['Status']
+    garage_name = body['Name']
     
     # Update the item in DynamoDB for the specified GarageID
     response = table.update_item(
