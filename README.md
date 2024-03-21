@@ -1,70 +1,23 @@
-# Parking Status app
+# Project Overview: Loyola University Chicago Parking Lot Notification System
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This system is a serverless, cloud-based architecture designed to provide real-time parking status notifications for Loyola University Chicago. It informs users about the current parking availability through a web application hosted on AWS, utilizing a range of AWS services for optimized performance, scalability, and reliability. Infrastructure is handled through the use of Terraform.
+Tech: React.js, Express.js, Python, Terraform, JavaScript
 
-## Available Scripts
+# AWS Architecture Components:
 
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- AWS S3 and CloudFront: The web application is hosted on S3, with CloudFront ensuring content is delivered with low latency and high transfer speeds. This combination enhances user experience by providing fast access to the web application from any location.
+- AWS Route 53: Utilized for DNS management, Route 53 facilitates the mapping of a custom domain to the web application.
+- Amazon API Gateway:
+  - /update Endpoint: Receives POST requests containing new parking status updates from the parking lot system. It's secured and managed by API Gateway, which triggers a Lambda function to process and store the update in DynamoDB.
+  - /getStatus Endpoint: Supports GET requests for live polling by the web application. It retrieves the current parking status from DynamoDB, enabling real-time status updates on the website.
+  - /addUser Endpoint: Handles POST requests for new user sign-ups, capturing user information and preferences to subscribe to notifications.
+- Amazon DynamoDB Tables:
+  - Garage Status Table: Stores current parking status with attributes such as GarageID, GarageName, and Status.
+  - User Info Table: Contains user subscription information, including UserID, PhoneNumber and SubscriptionStatus,
+- AWS Lambda Functions:
+  - Garage Status Updater: Processes parking lot status updates.
+  - Status Retriever: Gets status from the Garage Status DynamoDB
+  - New User: creates a new user in the User Info table.
+  - Notification Sender: Sends notifications to users based on the updated parking status and user subscription preferences.
+- Amazon SNS: Manages the distribution of notifications to users. Utilizes topics to categorize users by their notification preferences, ensuring that messages are targeted and relevant.
+- AWS EventBridge: Acts as a central event bus, routing events between DynamoDB, Lambda, and other AWS services. It's instrumental in triggering the Notification Sender function when the parking status updates.
