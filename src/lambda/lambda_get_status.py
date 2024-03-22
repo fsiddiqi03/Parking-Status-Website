@@ -34,7 +34,7 @@ def lambda_status_handler(event, context):
         if status:
             return {
                 'statusCode': 200,
-                'body': json.dumps(status)
+                'body': json.dumps({'status' : status})
             }
         else:
             return {
