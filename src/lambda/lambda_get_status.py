@@ -18,7 +18,7 @@ def lambda_status_handler(event, context):
             'statusCode': 400,
             'body': json.dumps({'error': 'GarageID and Name are required fields'})
         }
-
+    
     try:
         # Retrieve item from DynamoDB table using partition key and sort key 
         response = table.get_item(
