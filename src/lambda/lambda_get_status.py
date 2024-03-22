@@ -4,7 +4,7 @@ import json
 # Initialize Boto3 DynamoDB client
 dynamodb = boto3.resource('dynamodb', region_name='us-east-2')
 
-def lambda_status_handler(event, context):
+def lambda_handler(event, context):
     table_name = 'GarageStatus'
     table = dynamodb.Table(table_name)
 
