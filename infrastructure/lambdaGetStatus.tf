@@ -1,7 +1,7 @@
 data "archive_file" "lambda" {
   type        = "zip"
-  source_file = " "
-  output_path = " "
+  source_file = "../src/lambda/lambda_get_status.py"
+  output_path = "../src/lambda/lambda_get_status_payload.zip "
 }
 
 
