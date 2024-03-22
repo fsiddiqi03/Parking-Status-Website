@@ -1,7 +1,7 @@
 data "archive_file" "lambda" {
   type        = "zip"
-  source_file = ""
-  output_path = ""
+  source_file = " "
+  output_path = " "
 }
 
 
