@@ -59,10 +59,6 @@ resource "aws_lambda_permission" "api_gw" {
   source_arn = "${aws_apigatewayv2_api.lambda.execution_arn}/*/*"
 }
 
-output "http_api_url" {
-  value       = aws_apigatewayv2_api.lambda.api_endpoint
-  description = "The endpoint URL of the HTTP API Gateway"
-}
 
 /* 
 whats needed for polling 
@@ -70,7 +66,41 @@ whats needed for polling
 Api gateway integration 
 Api gateway route 
 lambda permission 
-
+output endpoint url
 and new lambda function 
 
 */
+
+
+resource "aws_apigatewayv2_integration" "getStatus" {
+  api_id = aws_apigatewayv2_api.lambda.id
+
+  integration_uri    = aws_lambda_function.get_status.invoke_arn
+  integration_type   = "AWS_PROXY"
+  integration_method = "GET"
+}
+
+
+resource "aws_apigatewayv2_route" "getStatus" {
+  api_id = aws_apigatewayv2_api.lambda.id
+
+  route_key = "GET /getStatus"
+  target    = "integrations/${aws_apigatewayv2_integration.getStatus.id}"
+}
+
+
+resource "aws_lambda_permission" "api_gw" {
+  statement_id  = "AllowExecutionFromAPIGateway"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.get_status.function_name
+  principal     = "apigateway.amazonaws.com"
+
+  source_arn = "${aws_apigatewayv2_api.lambda.execution_arn}/*/*"
+}
+
+output "http_api_url" {
+  value       = aws_apigatewayv2_api.lambda.api_endpoint
+  description = "The endpoint URL of the HTTP API Gateway"
+}
+
+
