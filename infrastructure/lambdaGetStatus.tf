@@ -1,17 +1,17 @@
 data "archive_file" "lambda_status" {
   type        = "zip"
   source_file = "../src/lambda/lambda_get_status.py"
-  output_path = "../src/lambda/lambda_get_status_payload.zip "
+  output_path = "../src/lambda/lambda_get_status_payload.zip"
 }
 
 
 resource "aws_lambda_function" "get_status" {
   function_name    = "getParkingStatus"
-  handler          = "lambda_get_status.lambda_status_handler"
+  handler          = "lambda_get_status.lambda_handler"
   role             = aws_iam_role.lambda_exec.arn
   runtime          = "python3.8"
-  filename         = data.archive_file.lambda.output_path
-  source_code_hash = data.archive_file.lambda.output_base64sha256
+  filename         = data.archive_file.lambda_status.output_path
+  source_code_hash = data.archive_file.lambda_status.output_base64sha256
 }
 
 
