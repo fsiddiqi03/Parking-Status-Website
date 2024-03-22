@@ -8,10 +8,9 @@ def lambda_status_handler(event, context):
     table_name = 'GarageStatus'
     table = dynamodb.Table(table_name)
 
-    body = json.loads(event['body'])
 
-    GarageID = body.get('GarageID')
-    GarageName = body.get('Name')
+    GarageID = event['queryStringParameters'].get('GarageID')
+    GarageName = event['queryStringParameters'].get('GarageName')
 
     if not GarageID or not GarageName:
         return {
