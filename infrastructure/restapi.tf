@@ -77,7 +77,7 @@ resource "aws_apigatewayv2_integration" "getStatus" {
 
   integration_uri    = aws_lambda_function.get_status.invoke_arn
   integration_type   = "AWS_PROXY"
-  integration_method = "GET"
+  integration_method = "POST"
 }
 
 
@@ -89,7 +89,7 @@ resource "aws_apigatewayv2_route" "getStatus" {
 }
 
 
-resource "aws_lambda_permission" "api_gw" {
+resource "aws_lambda_permission" "api_gw_get" {
   statement_id  = "AllowExecutionFromAPIGateway"
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.get_status.function_name
