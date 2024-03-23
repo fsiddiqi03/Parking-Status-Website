@@ -14,8 +14,7 @@ const ParkingStatus = () => {
         return res.json();
       })
       .then((data) => {
-        const body = JSON.parse(data.body);
-        setStatus(body.status)
+        setStatus(data.status)
       })
       .catch((error) => {
         console.log('Error fetching status:', error)
