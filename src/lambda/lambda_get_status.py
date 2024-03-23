@@ -12,9 +12,16 @@ def lambda_handler(event, context):
     GarageID = event['queryStringParameters'].get('GarageID')
     GarageName = event['queryStringParameters'].get('GarageName')
 
+    headers = {
+        'Access-Control-Allow-Origin': 'http://localhost:3000',  
+        'Access-Control-Allow-Methods': 'GET',
+        'Access-Control-Allow-Headers': 'Content-Type'
+    }
+
     if not GarageID or not GarageName:
         return {
             'statusCode': 400,
+            'headers': headers,
             'body': json.dumps({'error': 'GarageID and Name are required fields'})
         }
     
@@ -33,17 +40,20 @@ def lambda_handler(event, context):
         if status:
             return {
                 'statusCode': 200,
+                'headers': headers,
                 'body': json.dumps({'status' : status})
             }
         else:
             return {
                 'statusCode': 404,
+                'headers': headers,
                 'body': json.dumps({'error': 'Status not found'})
             }
 
     except Exception as e:
         return {
             'statusCode': 500,
+            'headers': headers,
             'body': json.dumps({'error': str(e)})
         }
 
