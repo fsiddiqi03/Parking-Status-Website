@@ -44,7 +44,9 @@ const ParkingStatus = () => {
           width={270}
         />
       </CardBody>
-      <Button color='danger' variant='shadow' isLoading = {isLoading} onClick={fetchStatus}>Refresh</Button>
+      <div className="px-4 ">
+        <Button color='danger' variant='shadow' isLoading = {isLoading} onClick={fetchStatus}>Refresh</Button>
+      </div>
     </Card>
   </div>
 );
