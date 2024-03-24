@@ -1,0 +1,17 @@
+.luc-parking-header {
+    background-color: #972b2b;
+    color: hsl(0, 0%, 100%);
+    /* Whit#972626for contrast */
+    text-align: center;
+    padding: 20px 0;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Additional styling for responsiveness and aesthetics */
+@media (max-width: 768px) {
+    .luc-parking-header {
+        font-size: 18px;
+        padding: 15px 0;
+    }
+}
