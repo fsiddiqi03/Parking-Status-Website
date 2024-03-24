@@ -1,27 +1,32 @@
 import React, { useEffect, useState } from 'react'
-import {Card, CardHeader, CardBody, Image} from "@nextui-org/react";
+import {Card, CardHeader, CardBody, Image, Button} from "@nextui-org/react";
 import park from '../images/Parking.jpg';
 
 
 
 
 const ParkingStatus = () => {
-  const [status, setStatus] = useState(null)
+  const [status, setStatus] = useState(null);
+  const [isLoading, setIsLoading] = useState(false)
 
-  useEffect(() => {
+  const fetchStatus = () => {
+    setIsLoading(true)
     fetch("https://yb86bbj90f.execute-api.us-east-2.amazonaws.com/serverless_lambda_stage/getStatus?GarageID=01&GarageName=Main")
-      .then((res) => {
-        return res.json();
-      })
+      .then((res) => res.json())
       .then((data) => {
         setStatus(data.status)
+        setIsLoading(false)
       })
       .catch((error) => {
-        console.log('Error fetching status:', error)
-        setStatus('Not Avialable')
-      })
+        console.log('Error fetching status:', error);
+        setStatus('Not Available');
+      });
+  };
 
-  }, [])
+  // Step 2: Call the fetchStatus function when the component mounts.
+  useEffect(() => {
+    fetchStatus();
+  }, []);
     
   return (
     <div className="flex justify-center items-center min-h-screen" >
@@ -39,6 +44,7 @@ const ParkingStatus = () => {
           width={270}
         />
       </CardBody>
+      <Button color='danger' variant='shadow' isLoading = {isLoading} onClick={fetchStatus}>Refresh</Button>
     </Card>
   </div>
 );
