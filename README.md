@@ -21,4 +21,5 @@ This system is a serverless, cloud-based architecture designed to provide real-t
 - Amazon SNS: Manages the distribution of notifications to users. Utilizes topics to categorize users by their notification preferences, ensuring that messages are targeted and relevant.
 - AWS EventBridge: Acts as a central event bus, routing events between DynamoDB, Lambda, and other AWS services. It's instrumental in triggering the Notification Sender function when the parking status updates.
 
-![Screenshot 2024-03-21 171029](https://github.com/fsiddiqi03/Parking-Status-Website/assets/126859213/6c58dc91-8be7-40ab-ac3b-cd162edad210)
+![Screenshot 2024-03-25 214647](https://github.com/fsiddiqi03/Parking-Status-Website/assets/126859213/9fc6c74f-42e0-4db1-b8ef-8d15dcdf5b54)
+
