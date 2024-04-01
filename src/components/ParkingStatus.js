@@ -11,7 +11,7 @@ const ParkingStatus = () => {
 
   const fetchStatus = () => {
     setIsLoading(true)
-    fetch("https://yb86bbj90f.execute-api.us-east-2.amazonaws.com/serverless_lambda_stage/getStatus?GarageID=01&GarageName=Main")
+    fetch(process.env.REACT_APP_API_URL)
       .then((res) => res.json())
       .then((data) => {
         setStatus(data.status)
