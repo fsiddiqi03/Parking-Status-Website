@@ -3,8 +3,6 @@ import {Card, CardHeader, CardBody, Image, Button} from "@nextui-org/react";
 import park from '../images/Parking.jpg';
 
 
-
-
 const ParkingStatus = () => {
   const [status, setStatus] = useState(null);
   const [isLoading, setIsLoading] = useState(false)
@@ -23,7 +21,7 @@ const ParkingStatus = () => {
       });
   };
 
-  // Step 2: Call the fetchStatus function when the component mounts.
+  // Call the fetchStatus function when the component mounts.
   useEffect(() => {
     fetchStatus();
   }, []);
