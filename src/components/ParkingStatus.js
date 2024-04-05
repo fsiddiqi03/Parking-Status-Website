@@ -28,7 +28,7 @@ const ParkingStatus = () => {
     
   return (
     <div className="flex justify-center items-center min-h-screen" >
-      <Card className="w-126 h-auto py-4">
+      <Card className="w-126 h-auto py-4" style={{ boxShadow: '0 0 10px rgba(0, 0, 0, 0.5)' }}>
       <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
         <p className="text-tiny uppercase font-bold">Garage</p>
         <small className="text-default-500">Main</small>
