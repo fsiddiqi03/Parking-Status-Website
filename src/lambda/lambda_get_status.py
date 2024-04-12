@@ -1,5 +1,11 @@
 import boto3
 import json
+import os
+from dotenv import load_dotenv
+
+# load env variables 
+load_dotenv()
+
 
 # Initialize Boto3 DynamoDB client
 dynamodb = boto3.resource('dynamodb', region_name='us-east-2')
@@ -13,7 +19,7 @@ def lambda_handler(event, context):
     GarageName = event['queryStringParameters'].get('GarageName')
 
     headers = {
-        'Access-Control-Allow-Origin': 'http://localhost:3000',  
+        'Access-Control-Allow-Origin': process.envs.LOCAL_HOST,  
         'Access-Control-Allow-Methods': 'GET',
         'Access-Control-Allow-Headers': 'Content-Type'
     }
