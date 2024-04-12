@@ -19,7 +19,7 @@ def lambda_handler(event, context):
     GarageName = event['queryStringParameters'].get('GarageName')
 
     headers = {
-        'Access-Control-Allow-Origin': process.envs.LOCAL_HOST,  
+        'Access-Control-Allow-Origin': os.getenv('LOCAL_HOST'),  
         'Access-Control-Allow-Methods': 'GET',
         'Access-Control-Allow-Headers': 'Content-Type'
     }
